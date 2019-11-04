@@ -66,21 +66,37 @@ $('#design').change(function() {
 
 //creating total cost element and appending to DOM
 
-let $totalCostLabel = $('<label>Total cost</label>');
+let $totalCostLabel = $("<span id='totalCost'>Total cost: $</span>");
 $('.activities').append($totalCostLabel);
 
 let $totalActivityCost = 0;
 
 //setting listener for checkboxes
 
-$('.activities').change(function() {
+$('.activities').change(function(event) {
 
-    if ($('input:checkbox[data-cost]')) {
+    const $target = $(event.target);
 
-        let val = $(this);
-        console.log(val);
+    //data-cost getting value
+    let $dataCost = parseInt($target.attr('data-cost').slice(-3));
+    console.log($dataCost);
+
+    //time and date getting value
+    let $dateAndTime = $target.attr('data-day-and-time');
+    console.log($dateAndTime);
+
+    let $isChecked = $("input:checked").val();
+    console.log($isChecked);
+
+    if ($isChecked) {
+
+        $totalActivityCost = $totalActivityCost + $dataCost;
+        $('#totalCost').html("Total cost $" + $totalActivityCost);
+    } else {
+
+        $totalActivityCost = $totalActivityCost - $dataCost;
+        $('#totalCost').html("Total cos $" + $totalActivityCost);
     }
 
 });
-
 //-------------------------------------------------------------------
