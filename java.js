@@ -104,7 +104,7 @@ $('.activities').change(function(event) {
     $('[type"checkbox"]').each(function() {
         const $test = $(this);
         if ($dateAndTime == $test.attr('data-day-and-time')) {
-            $test.prop('disabled');
+            $test.addClass('disabled');
         }
     });
 
