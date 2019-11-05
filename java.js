@@ -88,15 +88,25 @@ $('.activities').change(function(event) {
     let $isChecked = $("input:checked").val();
     console.log($isChecked);
 
-    if ($isChecked) {
+    if ($target.is(':checked')) {
 
         $totalActivityCost = $totalActivityCost + $dataCost;
         $('#totalCost').html("Total cost $" + $totalActivityCost);
+
+
     } else {
 
         $totalActivityCost = $totalActivityCost - $dataCost;
         $('#totalCost').html("Total cos $" + $totalActivityCost);
+
     }
 
+    $('[type"checkbox"]').each(function() {
+        const $test = $(this);
+        if ($dateAndTime == $test.attr('data-day-and-time')) {
+            $test.prop('disabled');
+        }
+    });
+
 });
-//-------------------------------------------------------------------
+//------------------------------------------------------------------
