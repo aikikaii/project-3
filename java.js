@@ -85,8 +85,7 @@ $('.activities').change(function(event) {
     let $dateAndTime = $target.attr('data-day-and-time');
     console.log($dateAndTime);
 
-    let $isChecked = $("input:checked").val();
-    console.log($isChecked);
+
 
     if ($target.is(':checked')) {
 
@@ -101,12 +100,23 @@ $('.activities').change(function(event) {
 
     }
 
-    $('[type"checkbox"]').each(function() {
+    $('[type="checkbox"]').each(function() {
         const $test = $(this);
-        if ($dateAndTime == $test.attr('data-day-and-time')) {
-            $test.addClass('disabled');
+        console.log($test.attr('data-day-and-time'));
+        if ($dateAndTime === $test.attr('data-day-and-time') && $target !== $test) {
+            if ($target.is(':checked')) {
+                console.log('im working 1')
+                $target.attr('disabled', false);
+                $test.attr("disabled", true);
+            }
+        } else {
+            console.log('im working 2');
+            $target.attr('disabled', false);
+            $test.attr("disabled", false);
         }
+
     });
 
 });
-//------------------------------------------------------------------
+
+//-----------------------------------------------------------------
