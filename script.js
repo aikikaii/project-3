@@ -191,9 +191,11 @@ function email() {
 }
 
 function checkBox() {
-    let checkbox = $("input[checkbox]:checked") > 0;
-    if (!($('#checkbox').attr('checked'))) {
+    let checkbox = $("input[type =checkbox]");
+    if (checkbox.prop('checked', false)) {
         alert('please check checkbox');
+    } else if (checkbox.length > 0) {
+        console.log('checkbox good');
     }
 }
 
