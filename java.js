@@ -17,7 +17,8 @@ $('#title').change(function() {
 
 $("#design option:first").attr('selected', 'selected').hide();
 
-//”T-Shirt Info” section STARTS
+
+//”T-Shirt Info” section 
 
 //adding option Please select a T-shirt theme to select 
 function Tshirt() {
@@ -62,7 +63,7 @@ $('#design').change(function() {
 });
 //---------------------------------------------------------------------
 
-//”Register for Activities” section STARTS
+//”Register for Activities” section 
 
 //creating total cost element and appending to DOM
 
@@ -102,21 +103,50 @@ $('.activities').change(function(event) {
 
     $('[type="checkbox"]').each(function() {
         const $test = $(this);
-        console.log($test.attr('data-day-and-time'));
         if ($dateAndTime === $test.attr('data-day-and-time') && $target !== $test) {
             if ($target.is(':checked')) {
                 console.log('im working 1')
-                $target.attr('disabled', false);
-                $test.attr("disabled", true);
+                $test.attr('disabled', true);
+                $target.attr("disabled", false);
+            } else {
+                console.log('im working 2');
+                $target.attr("disabled", false);
+                $test.attr('disabled', false);
             }
-        } else {
-            console.log('im working 2');
-            $target.attr('disabled', false);
-            $test.attr("disabled", false);
+
         }
+
 
     });
 
 });
 
 //-----------------------------------------------------------------
+
+//Payment Section
+
+$('#payment option[value="Credit Card"]').insertBefore('#payment option[value="select method"]').attr('selected', true);
+$('#payment option[value="select method"]').hide();
+
+function showPayment() {
+
+    let creditCard = $('#credit-card').show();
+    let paypal = $('#paypal').hide();
+    let bitcoin = $('#bitcoin').hide();
+
+
+    $('#payment').change(function() {
+        console.log('loading');
+        let click = $(this).val();
+        if (click == 'PayPal') {
+            paypal.show();
+            creditCard.hide();
+            bitcoin.hide();
+            paypal.css('color', 'green');
+            console.log('works');
+
+        }
+    });
+
+}
+showPayment();
