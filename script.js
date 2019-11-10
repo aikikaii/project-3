@@ -159,44 +159,9 @@ showPayment();
 
 // validation
 
-let check = false;
+const nameInput = $('#name');
+const emailInput = $('#mail');
 
-function validation() {
-    $('form').on('submit', function(e) {
-        if (check == false) {
-            e.preventDefault();
-            name();
-            email();
-            checkBox();
-        }
-    });
+function isNameValid(name) {
+    return /[a-z]+/.test(name);
 }
-
-function name() {
-    let nameInput = $('#name').val();
-    if (nameInput == '') {
-        console.log('please enter name');
-        $('#name').css('borderColor', 'red');
-        check = false;
-    }
-}
-
-function email() {
-    let emailCheck = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    let email = $('#mail').val();
-    if (email != emailCheck && email == '') {
-        console.log('enter valid email');
-        $("#mail").css('borderColor', 'red');
-    }
-}
-
-function checkBox() {
-    let checkbox = $("input[type =checkbox]");
-    if (checkbox.prop('checked', false)) {
-        alert('please check checkbox');
-    } else if (checkbox.length > 0) {
-        console.log('checkbox good');
-    }
-}
-
-validation();
