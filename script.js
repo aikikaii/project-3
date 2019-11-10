@@ -159,9 +159,58 @@ showPayment();
 
 // validation
 
-const nameInput = $('#name');
-const emailInput = $('#mail');
-
-function isNameValid(name) {
-    return /[a-z]+/.test(name);
+function isNameValid() {
+    let pattern = /^[a-zA-Z]*$/;
+    let name = $('#name').val();
+    if (pattern.test(name) && name !== '' && name.length > 1) {
+        console.log('works');
+    } else {
+        let $textError = ("<span> Wrong name input</span>");
+        $('fieldset label:eq(0)').append($textError).css('color', 'red');
+        $('#name').css('borderColor', 'red');
+        console.log('wrong input');
+        return true;
+    }
 }
+
+function isEmailValid() {
+    let pattern = /^[^@]+@[^@.]+\.[a-z]+$/i;
+    let email = $('#mail').val();
+    if (pattern.test(email) && email !== '') {
+        console.log('works');
+    } else {
+        let $textError = ("<span> Wrong email input</span>");
+        $('fieldset label:eq(1)').append($textError).css('color', 'red');
+        $('#mail').css('borderColor', 'red');
+        console.log('wrong input');
+        return true;
+    }
+}
+
+function isCheckBoxChecked() {
+    let $textError = ("<span> You must select at least on Activity</span>");
+    $('fieldset legend:eq(2)').append($textError).css('color', 'red');
+    $('input[type=checkbox]').prop('checked');
+    console.log('You must select one Activity');
+
+}
+
+function creditCardSelected() {
+    let pattern = "^(?:(?<visa>4[0-9]{12}(?:[0-9]{3})?)|";
+    let creditCard = $('#cc-num');
+    if ($('#payment option[value="Credit Card"]')) {
+        console.log('credit card is selected');
+        let $textError = "<span>Please enter credit card information</span>";
+        $('.col-6').append($textError).css('color', 'red');
+    } else {
+        $textError.hide();
+    }
+}
+
+$('form').on('submit', function(e) {
+    e.preventDefault();
+    isNameValid();
+    isEmailValid();
+    isCheckBoxChecked();
+    creditCardSelected();
+});
