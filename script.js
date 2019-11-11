@@ -196,12 +196,22 @@ function isCheckBoxChecked() {
 }
 
 function creditCardSelected() {
-    let pattern = "^(?:(?<visa>4[0-9]{12}(?:[0-9]{3})?)|";
-    let creditCard = $('#cc-num');
+    let creditCardpattern = /^(?:(4[0-9]{12}(?:[0-9]{3})?)|(5[1-5][0-9]{14})|(6(?:011|5[0-9]{2})[0-9]{12})|(3[47][0-9]{13})|(3(?:0[0-5]|[68][0-9])[0-9]{11})|((?:2131|1800|35[0-9]{3})[0-9]{11}))$/;
+    let creditCard = $('#cc-num').val();
+
+    let zipCode = $('#zip').val();
+    let zipPattern = /^\d{5}$/;
+
+    let cvv = $('#cvv').val();
+    let cvvPattern = /^[0-9]{3,4}$/;
+
+
     if ($('#payment option[value="Credit Card"]')) {
         console.log('credit card is selected');
-        let $textError = "<span>Please enter credit card information</span>";
-        $('.col-6').append($textError).css('color', 'red');
+        if (creditCard !== pattern && creditCard === '' && zipCode !== zipPattern && cvv !== cvvPattern) {
+            let $textError = "<span>Please enter credit card information</span>";
+            $('.col-6').append($textError).css('color', 'red');
+        }
     } else {
         $textError.hide();
     }
