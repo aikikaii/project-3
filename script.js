@@ -164,12 +164,13 @@ function isNameValid() {
     let name = $('#name').val();
     if (pattern.test(name) && name !== '' && name.length > 1) {
         console.log('works');
+        return true;
     } else {
         let $textError = ("<span> Wrong name input</span>");
         $('fieldset label:eq(0)').append($textError).css('color', 'red');
         $('#name').css('borderColor', 'red');
         console.log('wrong input');
-        return true;
+        return false;
     }
 }
 
@@ -178,37 +179,35 @@ function isEmailValid() {
     let email = $('#mail').val();
     if (pattern.test(email) && email !== '') {
         console.log('works');
+        return true
     } else {
         let $textError = ("<span> Wrong email input</span>");
         $('fieldset label:eq(1)').append($textError).css('color', 'red');
         $('#mail').css('borderColor', 'red');
         console.log('wrong input');
-        return true;
+        return false;
     }
 }
 
 function isCheckBoxChecked() {
     let $textError = ("<span> You must select at least on Activity</span>");
-    $('fieldset legend:eq(2)').append($textError).css('color', 'red');
-    $('input[type=checkbox]').prop('checked');
-    console.log('You must select one Activity');
 
+    if ($('fieldset legend:eq(2)').append($textError).css('color', 'red')) {
+        $('input[type=checkbox]').prop('checked');
+        console.log('You must select one Activity');
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function creditCardSelected() {
     let creditCardpattern = /^(?:(4[0-9]{12}(?:[0-9]{3})?)|(5[1-5][0-9]{14})|(6(?:011|5[0-9]{2})[0-9]{12})|(3[47][0-9]{13})|(3(?:0[0-5]|[68][0-9])[0-9]{11})|((?:2131|1800|35[0-9]{3})[0-9]{11}))$/;
     let creditCard = $('#cc-num').val();
 
-    let zipCode = $('#zip').val();
-    let zipPattern = /^\d{5}$/;
-
-    let cvv = $('#cvv').val();
-    let cvvPattern = /^[0-9]{3,4}$/;
-
-
     if ($('#payment option[value="Credit Card"]')) {
         console.log('credit card is selected');
-        if (creditCard !== pattern && creditCard === '' && zipCode !== zipPattern && cvv !== cvvPattern) {
+        if (creditCard !== pattern && creditCard === '') {
             let $textError = "<span>Please enter credit card information</span>";
             $('.col-6').append($textError).css('color', 'red');
         }
@@ -217,10 +216,19 @@ function creditCardSelected() {
     }
 }
 
+
 $('form').on('submit', function(e) {
-    e.preventDefault();
-    isNameValid();
-    isEmailValid();
-    isCheckBoxChecked();
-    creditCardSelected();
+
+    if (isNameValid() === false) {
+        e.preventDefault();
+        console.log('isNameValid preventing');
+    }
+    if (isEmailValid() === false) {
+        e.preventDefault();
+        console.log('isEmailValid preventing');
+    }
+    if (isCheckBoxChecked() === false) {
+        e.preventDefault();
+        console.log('isCheckBoxValid preventing');
+    }
 });
