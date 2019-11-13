@@ -160,16 +160,16 @@ showPayment();
 // validation
 
 function isNameValid() {
-    let pattern = /^[a-zA-Z]*$/;
+    let pattern = /^[a-zA-Z]+$/;
     let name = $('#name').val();
     if (pattern.test(name) && name !== '' && name.length > 1) {
-        console.log('works');
+        console.log('isNameValid works');
         return true;
     } else {
         let $textError = ("<span> Wrong name input</span>");
         $('fieldset label:eq(0)').append($textError).css('color', 'red');
         $('#name').css('borderColor', 'red');
-        console.log('wrong input');
+        console.log('isNameValid wrong input');
         return false;
     }
 }
@@ -178,57 +178,86 @@ function isEmailValid() {
     let pattern = /^[^@]+@[^@.]+\.[a-z]+$/i;
     let email = $('#mail').val();
     if (pattern.test(email) && email !== '') {
-        console.log('works');
+        console.log('isEmailValid works');
         return true
     } else {
         let $textError = ("<span> Wrong email input</span>");
         $('fieldset label:eq(1)').append($textError).css('color', 'red');
         $('#mail').css('borderColor', 'red');
-        console.log('wrong input');
+        console.log('isEmailValid wrong input');
         return false;
     }
 }
 
 function isCheckBoxChecked() {
-    let $textError = ("<span> You must select at least on Activity</span>");
-
-    if ($('fieldset legend:eq(2)').append($textError).css('color', 'red')) {
-        $('input[type=checkbox]').prop('checked');
+    if ($('input[type=checkbox]').is(':checked')) {
+        return true;
+        console.log('one checkbox selected');
+    } else {
+        let $textError = ("<span> You must select at least on Activity</span>");
+        $('fieldset legend:eq(2)').append($textError).css('color', 'red');
         console.log('You must select one Activity');
         return false;
-    } else {
-        return true;
     }
 }
+
 
 function creditCardSelected() {
     let creditCardpattern = /^(?:(4[0-9]{12}(?:[0-9]{3})?)|(5[1-5][0-9]{14})|(6(?:011|5[0-9]{2})[0-9]{12})|(3[47][0-9]{13})|(3(?:0[0-5]|[68][0-9])[0-9]{11})|((?:2131|1800|35[0-9]{3})[0-9]{11}))$/;
     let creditCard = $('#cc-num').val();
 
-    if ($('#payment option[value="Credit Card"]')) {
-        console.log('credit card is selected');
-        if (creditCard !== pattern && creditCard === '') {
-            let $textError = "<span>Please enter credit card information</span>";
-            $('.col-6').append($textError).css('color', 'red');
-        }
+    if (creditCard !== creditCardpattern && creditCard === '') {
+        let $textError = "<span>Please enter credit card information</span>";
+        $('.col-6').append($textError).css('color', 'red');
+        return false;
+        console.log('creditCardSelect wrong');
     } else {
-        $textError.hide();
+        $('.col-6').remove($textError);
+        return true;
+        console.log('creditCardSelect good');
+    }
+}
+
+function zipCode() {
+    let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+    let zipCodee = $('#zip').val();
+    if (zipCodee !== zipCodePattern && zipCodee === '') {
+        console.log('zip working');
+        return false;
+    } else {
+        return true;
+
+    }
+}
+
+function CV() {
+
+    let cvvPatern = /^[0-9]{3,3}$/;
+    let cvvv = $('#cvv').val();
+
+    if (cvvv !== cvvPatern && cvvv === '') {
+        return false;
+    } else {
+        return true;
+
     }
 }
 
 
+
+
+
+
 $('form').on('submit', function(e) {
 
-    if (isNameValid() === false) {
+    if (isNameValid() === false && isEmailValid() === false && isCheckBoxChecked() === false) {
         e.preventDefault();
-        console.log('isNameValid preventing');
     }
-    if (isEmailValid() === false) {
+    if ($('select option:eq(0)' || creditCardSelected() === false)) {
         e.preventDefault();
-        console.log('isEmailValid preventing');
-    }
-    if (isCheckBoxChecked() === false) {
-        e.preventDefault();
-        console.log('isCheckBoxValid preventing');
+        console.log('not working');
+
+    } else {
+        console.log('its working - remove preventDefault()');
     }
 });
