@@ -162,24 +162,26 @@ showPayment();
 function isNameValid() {
     let pattern = /^[a-zA-Z]+$/;
     let name = $('#name').val();
-    if (pattern.test(name) && name !== '' && name.length > 1) {
-        console.log('isNameValid works');
-        return true;
-    } else {
+    console.log('this' + name);
+    if (name !== patern || name === '') {
+        console.log('isNameValid not wroking');
         let $textError = ("<span> Wrong name input</span>");
         $('fieldset label:eq(0)').append($textError).css('color', 'red');
         $('#name').css('borderColor', 'red');
-        console.log('isNameValid wrong input');
         return false;
+    } else {
+
+        console.log('isNameValid works');
+        return true;
     }
 }
 
 function isEmailValid() {
     let pattern = /^[^@]+@[^@.]+\.[a-z]+$/i;
     let email = $('#mail').val();
-    if (pattern.test(email) && email !== '') {
+    if (email !== pattern && email !== '') {
         console.log('isEmailValid works');
-        return true
+        return true;
     } else {
         let $textError = ("<span> Wrong email input</span>");
         $('fieldset label:eq(1)').append($textError).css('color', 'red');
@@ -208,13 +210,12 @@ function creditCardSelected() {
 
     if (creditCard !== creditCardpattern && creditCard === '') {
         let $textError = "<span>Please enter credit card information</span>";
-        $('.col-6').append($textError).css('color', 'red');
+        $('.col-6 label:eq(0)').append($textError).css('color', 'red');
+        console.log('creditCardSelect checking === false');
         return false;
-        console.log('creditCardSelect wrong');
     } else {
-        $('.col-6').remove($textError);
+        console.log('creditCardSelect chceking === true');
         return true;
-        console.log('creditCardSelect good');
     }
 }
 
@@ -222,9 +223,11 @@ function zipCode() {
     let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
     let zipCodee = $('#zip').val();
     if (zipCodee !== zipCodePattern && zipCodee === '') {
-        console.log('zip working');
+        let $error = $('.col-3 input:eq(0)').css('borderColor', 'red');
+        console.log('zip checking ===false');
         return false;
     } else {
+        console.log('zip checking ===true');
         return true;
 
     }
@@ -234,30 +237,35 @@ function CV() {
 
     let cvvPatern = /^[0-9]{3,3}$/;
     let cvvv = $('#cvv').val();
-
     if (cvvv !== cvvPatern && cvvv === '') {
+        let $error = $('.col-3 input:eq(1)').css('borderColor', 'red');
+        console.log('cvv checking === false');
         return false;
     } else {
+        console.log('cvv checking ===true');
         return true;
 
     }
 }
 
-
-
-
-
-
 $('form').on('submit', function(e) {
 
-    if (isNameValid() === false && isEmailValid() === false && isCheckBoxChecked() === false) {
-        e.preventDefault();
-    }
-    if ($('select option:eq(0)' || creditCardSelected() === false)) {
-        e.preventDefault();
-        console.log('not working');
+    let isCreditCardSelected = $('#payment option:eq(0)').length;
+    console.log(isCreditCardSelected);
 
-    } else {
-        console.log('its working - remove preventDefault()');
+    if (isNameValid() === false || isEmailValid() === false || isCheckBoxChecked() === false && isCreditCardSelected === 1) {
+        e.preventDefault();
+        isNameValid();
+        isEmailValid();
+        isCheckBoxChecked();
+
+    }
+    if (isNameValid() === true && isEmailValid() === true && isCheckBoxChecked() === true && isCreditCardSelected === 1) {
+        if (creditCardSelected() === false || zipCode() === false || CV() === false) {
+
+            e.preventDefault();
+        } else {
+            console.log('works');
+        }
     }
 });
