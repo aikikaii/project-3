@@ -162,13 +162,15 @@ showPayment();
 function isNameValid() {
     let pattern = /^[a-zA-Z]+$/;
     let name = $('#name').val();
+    let $textError = ("<span> Wrong name input</span>");
+
     if (pattern.test(name) || name === '') {
         console.log('isNameValid not wroking');
-        let $textError = ("<span> Wrong name input</span>");
         $('fieldset label:eq(0)').append($textError).css('color', 'red');
         $('#name').css('borderColor', 'red');
         return false;
     } else {
+        $('fieldset label:eq(0)').remove($textError).css('color', 'red');
 
         console.log('isNameValid works');
         return true;
