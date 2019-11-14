@@ -171,7 +171,6 @@ function isNameValid() {
         return false;
     } else {
         $('fieldset label:eq(0)').remove($textError).css('color', 'red');
-
         console.log('isNameValid works');
         return true;
     }
