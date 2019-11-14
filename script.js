@@ -162,8 +162,7 @@ showPayment();
 function isNameValid() {
     let pattern = /^[a-zA-Z]+$/;
     let name = $('#name').val();
-    console.log('this' + name);
-    if (name !== patern || name === '') {
+    if (pattern.test(name) || name === '') {
         console.log('isNameValid not wroking');
         let $textError = ("<span> Wrong name input</span>");
         $('fieldset label:eq(0)').append($textError).css('color', 'red');
