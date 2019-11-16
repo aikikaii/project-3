@@ -159,18 +159,36 @@ showPayment();
 
 // validation
 
+let nameError = ("<span id='wrongName'>Wrong name input</span>");
+let emailError = ("<span id='wrongEmail'>Wrong email input</span>");
+let checkBoxError = ("<span id='wrongCheckbox'>You must check at least one checkbox</span>");
+let creditCardError = ("<span id='wrongCreditCard'>Please enter your credit card information again</span>");
+
+const nameWrong = $('#name');
+const emailWrong = $('#mail');
+const checkBoxWrong = $('.activities legend:eq(0)');
+const creditCardWrong = $(' legend:eq(3)');
+
+nameWrong.before(nameError);
+emailWrong.before(emailError);
+checkBoxWrong.before(checkBoxError);
+creditCardWrong.before(creditCardError);
+
+$('#wrongName').css('color', 'red').hide();
+$('#wrongEmail').css('color', 'red').hide();
+$('#wrongCheckbox').css('color', 'red').hide();
+$('#wrongCreditCard').css('color', 'red').hide();
+
+
+
 function isNameValid() {
     let pattern = /^[a-zA-Z]+$/;
     let name = $('#name').val();
-
     if (!pattern.test(name)) {
-        console.log('isNameValid not wroking');
-        let $textError = ("<span> Wrong name input</span>");
-        $('fieldset label:eq(0)').append($textError).css('color', 'red');
+        $('#wrongName').css('color', 'red').show();
         return false;
     } else {
-        console.log('isNameValid works');
-        $('fieldset label:eq(0)').remove($textError).css('color', 'red');
+        $('#wrongName').css('color', 'red').hide();
         return true;
     }
 }
@@ -179,25 +197,20 @@ function isEmailValid() {
     let pattern = /^[^@]+@[^@.]+\.[a-z]+$/i;
     let email = $('#mail').val();
     if (!pattern.test(email)) {
-        let $textError = ("<span> Wrong email input</span>");
-        $('fieldset label:eq(1)').append($textError).css('color', 'red');
-        console.log('isEmailValid doesnt works');
+        $('#wrongEmail').css('color', 'red').show();
         return false;
     } else {
-        console.log('isEmailValid works');
-        //$textError.hide();
+        $('#wrongEmail').css('color', 'red').hide();
         return true;
     }
 }
 
 function isCheckBoxChecked() {
     if ($('input[type=checkbox]').is(':checked')) {
+        $('#wrongCheckbox').css('color', 'red').hide();
         return true;
-        console.log('one checkbox selected');
     } else {
-        let $textError = ("<span> You must select at least on Activity</span>");
-        $('fieldset legend:eq(2)').append($textError).css('color', 'red');
-        console.log('You must select one Activity');
+        $('#wrongCheckbox').css('color', 'red').show();
         return false;
     }
 }
@@ -206,14 +219,11 @@ function isCheckBoxChecked() {
 function creditCardSelected() {
     let creditCardpattern = /^(?:(4[0-9]{12}(?:[0-9]{3})?)|(5[1-5][0-9]{14})|(6(?:011|5[0-9]{2})[0-9]{12})|(3[47][0-9]{13})|(3(?:0[0-5]|[68][0-9])[0-9]{11})|((?:2131|1800|35[0-9]{3})[0-9]{11}))$/;
     let creditCard = $('#cc-num').val();
-
     if (!creditCardpattern.test(creditCard) && creditCard === '') {
-        let $textError = $('.col-6 input:eq(0)').css('borderColor', 'red');
-        console.log('creditCardSelect checking === false');
+        $('#wrongCreditCard').css('color', 'red').show();
         return false;
     } else {
-        console.log('creditCardSelect chceking === true');
-        //$textError.hide();
+        $('#wrongCreditCard').css('color', 'red').hide();
         return true;
     }
 }
@@ -222,12 +232,8 @@ function zipCode() {
     let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
     let zipCodee = $('#zip').val();
     if (!zipCodePattern.test(zipCodee) && zipCodee === '') {
-        let $textError = $('.col-3 input:eq(0)').css('borderColor', 'red');
-        console.log('zip checking ===false');
         return false;
     } else {
-        console.log('zip checking ===true');
-        //$textError.hide();
         return true;
 
     }
@@ -238,12 +244,8 @@ function CV() {
     let cvvPatern = /^[0-9]{3,3}$/;
     let cvvv = $('#cvv').val();
     if (!cvvPatern.test(cvvv) && cvvv === '') {
-        let $textError = $('.col-3 input:eq(1)').css('borderColor', 'red');
-        console.log('cvv checking === false');
         return false;
     } else {
-        console.log('cvv checking ===true');
-        // $textError.hide();
         return true;
 
     }
@@ -251,8 +253,7 @@ function CV() {
 
 $('form').on('submit', function(e) {
 
-    let isCreditCardSelected = $('#payment option:eq(0)').length;
-
+    let creditCard = $("#payment option[value='Credit Card'").val();
 
     if (!isNameValid()) {
         e.preventDefault();
@@ -262,17 +263,52 @@ $('form').on('submit', function(e) {
     }
     if (!isCheckBoxChecked()) {
         e.preventDefault();
-    }
-    if (isNameValid() === true && isEmailValid() === true && isCheckBoxChecked() === true && $('#payment option:eq(0)')) {
+
+    } else if ($("#payment option[value='Credit Card'").is(':selected')) {
         if (!creditCardSelected()) {
             e.preventDefault();
+            $('.col-6 input:eq(0)').css('borderColor', 'red');
+        } else {
+            $('.col-6 input:eq(0)').css('borderColor', '');
+
         }
         if (!zipCode()) {
-            e.preventDefault()
+            $('.col-3 input:eq(0)').css('borderColor', 'red');
+            e.preventDefault();
+        } else {
+            $('.col-3 input:eq(0)').css('borderColor', '');
         }
         if (!CV()) {
             e.preventDefault();
+            $('.col-3 input:eq(1)').css('borderColor', 'red');
+        } else {
+            $('.col-3 input:eq(1)').css('borderColor', '');
+        }
+
+    } else if ($("#payment option [value='Bitcoin'").is(':selected')) {
+        if (!isNameValid()) {
+            e.preventDefault();
+        }
+        if (!isEmailValid()) {
+            e.preventDefault();
+        }
+        if (!isCheckBoxChecked()) {
+            e.preventDefault();
+        } else {
+            console.log('bit coin works');
+
+        }
+    } else if ($("#payment option [value='PayPal'").is(':selected')) {
+        if (!isNameValid()) {
+            e.preventDefault();
+        }
+        if (!isEmailValid()) {
+            e.preventDefault();
+        }
+        if (!isCheckBoxChecked()) {
+            e.preventDefault();
+        } else {
+            console.log('pay pal works');
         }
     }
-
 });
