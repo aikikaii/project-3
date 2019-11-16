@@ -182,7 +182,7 @@ $('#wrongCreditCard').css('color', 'red').hide();
 
 
 function isNameValid() {
-    let pattern = /^[a-zA-Z]+$/;
+    let pattern = /[a-z]+/i;
     let name = $('#name').val();
     if (!pattern.test(name)) {
         $('#wrongName').css('color', 'red').show();
@@ -217,7 +217,7 @@ function isCheckBoxChecked() {
 
 
 function creditCardSelected() {
-    let creditCardpattern = /^(?:(4[0-9]{12}(?:[0-9]{3})?)|(5[1-5][0-9]{14})|(6(?:011|5[0-9]{2})[0-9]{12})|(3[47][0-9]{13})|(3(?:0[0-5]|[68][0-9])[0-9]{11})|((?:2131|1800|35[0-9]{3})[0-9]{11}))$/;
+    let creditCardpattern = /^\d{13,16}$/;
     let creditCard = $('#cc-num').val();
     if (!creditCardpattern.test(creditCard) && creditCard === '') {
         $('#wrongCreditCard').css('color', 'red').show();
@@ -241,7 +241,7 @@ function zipCode() {
 
 function CV() {
 
-    let cvvPatern = /^[0-9]{3,3}$/;
+    let cvvPatern = /^\d{3}$/;
     let cvvv = $('#cvv').val();
     if (!cvvPatern.test(cvvv) && cvvv === '') {
         return false;
@@ -270,7 +270,6 @@ $('form').on('submit', function(e) {
             $('.col-6 input:eq(0)').css('borderColor', 'red');
         } else {
             $('.col-6 input:eq(0)').css('borderColor', '');
-
         }
         if (!zipCode()) {
             $('.col-3 input:eq(0)').css('borderColor', 'red');
@@ -295,7 +294,6 @@ $('form').on('submit', function(e) {
         if (!isCheckBoxChecked()) {
             e.preventDefault();
         } else {
-            console.log('bit coin works');
 
         }
     } else if ($("#payment option [value='PayPal'").is(':selected')) {
@@ -307,8 +305,6 @@ $('form').on('submit', function(e) {
         }
         if (!isCheckBoxChecked()) {
             e.preventDefault();
-        } else {
-            console.log('pay pal works');
-        }
+        } else {}
     }
 });
