@@ -162,17 +162,14 @@ showPayment();
 let nameError = ("<span id='wrongName'>Wrong name input</span>");
 let emailError = ("<span id='wrongEmail'>Wrong email input</span>");
 let checkBoxError = ("<span id='wrongCheckbox'>You must check at least one checkbox</span>");
-let creditCardError = ("<span id='wrongCreditCard'>Please enter your credit card information again</span>");
 
 const nameWrong = $('#name');
 const emailWrong = $('#mail');
 const checkBoxWrong = $('.activities legend:eq(0)');
-const creditCardWrong = $(' legend:eq(3)');
 
 nameWrong.before(nameError);
 emailWrong.before(emailError);
 checkBoxWrong.before(checkBoxError);
-creditCardWrong.before(creditCardError);
 
 $('#wrongName').css('color', 'red').hide();
 $('#wrongEmail').css('color', 'red').hide();
@@ -221,8 +218,11 @@ function creditCardSelected() {
     let creditCard = $('#cc-num').val();
     if (!creditCardpattern.test(creditCard) && creditCard === '') {
         $('#wrongCreditCard').css('color', 'red').show();
+        $('.col-6 input:eq(0)').css('borderColor', 'red');
         return false;
     } else {
+        $('.col-6 input:eq(0)').css('borderColor', '');
+
         $('#wrongCreditCard').css('color', 'red').hide();
         return true;
     }
@@ -231,80 +231,70 @@ function creditCardSelected() {
 function zipCode() {
     let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
     let zipCodee = $('#zip').val();
+    $('.col-3 input:eq(0)').css('borderColor', 'red');
     if (!zipCodePattern.test(zipCodee) && zipCodee === '') {
         return false;
     } else {
+        $('.col-3 input:eq(0)').css('borderColor', '');
         return true;
-
     }
 }
 
 function CV() {
-
     let cvvPatern = /^\d{3}$/;
     let cvvv = $('#cvv').val();
     if (!cvvPatern.test(cvvv) && cvvv === '') {
+        $('.col-3 input:eq(1)').css('borderColor', 'red');
         return false;
     } else {
+        $('.col-3 input:eq(1)').css('borderColor', '');
         return true;
-
     }
 }
 
 $('form').on('submit', function(e) {
 
-    let creditCard = $("#payment option[value='Credit Card'").val();
+    let isTrue = true;
 
-    if (!isNameValid()) {
-        e.preventDefault();
+    let array = [isNameValid(),
+        isEmailValid(),
+        isCheckBoxChecked()
+    ];
+
+    let arrayMore = [creditCardSelected(),
+        zipCode(),
+        CV()
+    ];
+
+    if ($("#payment option[value='Credit Card'").is(':selected')) {
+        array.push(creditCardSelected(), zipCode(), CV());
+        console.log(array);
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === false) {
+                isTrue = false;
+                return isTrue;
+                console.log(isTrue);
+            }
+        }
     }
-    if (!isEmailValid()) {
-        e.preventDefault();
+
+    if ($("#payment option[value='PayPal'").is(':selected')) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === false) {
+                isTrue = false;
+                return isTrue;
+                console.log(isTrue);
+            }
+        }
     }
-    if (!isCheckBoxChecked()) {
-        e.preventDefault();
-
-    } else if ($("#payment option[value='Credit Card'").is(':selected')) {
-        if (!creditCardSelected()) {
-            e.preventDefault();
-            $('.col-6 input:eq(0)').css('borderColor', 'red');
-        } else {
-            $('.col-6 input:eq(0)').css('borderColor', '');
+    if ($("#payment option[value='Bitcoin'").is(':selected')) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === false) {
+                isTrue = false;
+                return isTrue;
+                console.log(isTrue);
+            }
         }
-        if (!zipCode()) {
-            $('.col-3 input:eq(0)').css('borderColor', 'red');
-            e.preventDefault();
-        } else {
-            $('.col-3 input:eq(0)').css('borderColor', '');
-        }
-        if (!CV()) {
-            e.preventDefault();
-            $('.col-3 input:eq(1)').css('borderColor', 'red');
-        } else {
-            $('.col-3 input:eq(1)').css('borderColor', '');
-        }
-
-    } else if ($("#payment option [value='Bitcoin'").is(':selected')) {
-        if (!isNameValid()) {
-            e.preventDefault();
-        }
-        if (!isEmailValid()) {
-            e.preventDefault();
-        }
-        if (!isCheckBoxChecked()) {
-            e.preventDefault();
-        } else {
-
-        }
-    } else if ($("#payment option [value='PayPal'").is(':selected')) {
-        if (!isNameValid()) {
-            e.preventDefault();
-        }
-        if (!isEmailValid()) {
-            e.preventDefault();
-        }
-        if (!isCheckBoxChecked()) {
-            e.preventDefault();
-        } else {}
     }
+
 });
