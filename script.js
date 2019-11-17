@@ -113,10 +113,7 @@ $('.activities').change(function(event) {
                 $target.attr("disabled", false);
                 $test.attr('disabled', false);
             }
-
         }
-
-
     });
 
 });
@@ -183,9 +180,11 @@ function isNameValid() {
     let name = $('#name').val();
     if (!pattern.test(name)) {
         $('#wrongName').css('color', 'red').show();
+        $('#name').css('borderColor', 'red');
         return false;
     } else {
         $('#wrongName').css('color', 'red').hide();
+        $('#name').css('borderColor', '');
         return true;
     }
 }
@@ -195,9 +194,11 @@ function isEmailValid() {
     let email = $('#mail').val();
     if (!pattern.test(email)) {
         $('#wrongEmail').css('color', 'red').show();
+        $('#mail').css('borderColor', 'red');
         return false;
     } else {
         $('#wrongEmail').css('color', 'red').hide();
+        $('#mail').css('borderColor', '');
         return true;
     }
 }
