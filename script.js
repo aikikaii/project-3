@@ -262,10 +262,6 @@ $('form').on('submit', function(e) {
         isCheckBoxChecked()
     ];
 
-    let arrayMore = [creditCardSelected(),
-        zipCode(),
-        CV()
-    ];
 
     if ($("#payment option[value='Credit Card'").is(':selected')) {
         array.push(creditCardSelected(), zipCode(), CV());
