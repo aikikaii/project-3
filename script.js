@@ -215,9 +215,9 @@ function isCheckBoxChecked() {
 
 
 function creditCardSelected() {
-    let creditCardpattern = /^\d{13,16}$/;
+    let creditCardpattern = /^[0-9]{13,16}$/;
     let creditCard = $('#cc-num').val();
-    if (!creditCardpattern.test(creditCard) && creditCard === '') {
+    if (!creditCardpattern.test(creditCard)) {
         $('#wrongCreditCard').css('color', 'red').show();
         $('.col-6 input:eq(0)').css('borderColor', 'red');
         return false;
@@ -233,7 +233,7 @@ function zipCode() {
     let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
     let zipCodee = $('#zip').val();
     $('.col-3 input:eq(0)').css('borderColor', 'red');
-    if (!zipCodePattern.test(zipCodee) && zipCodee === '') {
+    if (!zipCodePattern.test(zipCodee)) {
         return false;
     } else {
         $('.col-3 input:eq(0)').css('borderColor', '');
@@ -244,7 +244,7 @@ function zipCode() {
 function CV() {
     let cvvPatern = /^\d{3}$/;
     let cvvv = $('#cvv').val();
-    if (!cvvPatern.test(cvvv) && cvvv === '') {
+    if (!cvvPatern.test(cvvv)) {
         $('.col-3 input:eq(1)').css('borderColor', 'red');
         return false;
     } else {
